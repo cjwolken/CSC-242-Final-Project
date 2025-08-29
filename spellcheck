@@ -5,21 +5,36 @@
 using namespace std;
 
 /**
-Reads input file, checks against /usr/share/dict/words, and returns any words not found. 
+Reads input file, checks against /usr/share/dict/words, and returns any words not found.
 @param input_file - the input stream
+@param words_file - the dictionary file copied from /usr/share/dict/words
 
 */
 
 void process_words(ifstream& input_file) // Needs work
 {
 	string word;
-	input_file >> word;
-
+	input_file.open("testwords.txt");
 	if (input_file.fail()) { return; } // Check for failure after each input
+	else input_file >> word; //doesn't work
+	cout << word << endl; // doesn 't work. Probably need to do this in main.
+	ofstream out;
+	out.open("out.txt"); // doesn't work
 	
+	
+
 }
+//void check_words(ifstream& dictionary_file) // Opens dictionary file
+//{
+//	dictionary_file >> 
+
+//}
 int main()
 {
-		ifstream input_file;
-		input_file.open("testwords.txt");
-		if (input_file.fail()) { return 0; } // Check for failure after opening
+	ifstream input_file;
+	input_file.open("testwords.txt");
+	if (input_file.fail()) { return 0;} // Check for failure after opening
+	
+	return 0;
+}
+	

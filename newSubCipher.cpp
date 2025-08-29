@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
             {
                 arg = argv[j];
                 file_count++;
-                if (file_count == 1) 
+                if (file_count == 2) 
                 {  
                     in_file.open(arg, ios::in);
                     if (in_file.fail()) 
@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
                     }
                 }
                 
-                else if (file_count == 2) 
+                else if (file_count == 3) 
                 {
                     out_file.open(arg, ios::out);
                     if (out_file.fail()) 

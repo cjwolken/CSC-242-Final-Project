@@ -15,8 +15,8 @@ using namespace std;
 void encrypt_file(ifstream& in, ofstream& out, string k)
 {  
     char ch;
-    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBAzxyxwvutsrqponmlkjihgfedcba";
+    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     // Preparing the key
     for (int i = 0; i < k.length(); i++)
     {    
@@ -43,7 +43,7 @@ void encrypt_file(ifstream& in, ofstream& out, string k)
         {
             k += reverse_alpha[i];
         }
-        if (k.length() == 26)
+        if (k.length() == 52)
         {
             break;
         }
@@ -76,8 +76,8 @@ void encrypt_file(ifstream& in, ofstream& out, string k)
 void decrypt_file(ifstream& in, ofstream& out, string k)
 {
     char ch;
-    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBAzxyxwvutsrqponmlkjihgfedcba";
+    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     // Preparing the key
     for (int i = 0; i < k.length(); i++)
     {    
@@ -104,7 +104,7 @@ void decrypt_file(ifstream& in, ofstream& out, string k)
         {
             k += reverse_alpha[i];
         }
-        if (k.length() == 26)
+        if (k.length() == 52)
         {
             break;
         }
@@ -143,7 +143,7 @@ int main(int argc, char* argv[])
         // Check for decryption flag (Decryption won't work because of issue with file count(I think))
         if (arg == "-d") 
         { 
-            for (int j = 2; j < argc; j++)
+            for (int j = 1; j < argc; j++)
             {
                 arg = argv[j];
                 file_count++;

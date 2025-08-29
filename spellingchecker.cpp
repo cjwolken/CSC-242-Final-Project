@@ -2,49 +2,39 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <cctype>   // Needed for isalpha
-#include <algorithm>
+#include <algorithm> 
 
-using namespace std;
-
-// Function to clean a word
-string cleanWord(const string& input) {
-    string result;
-
-    for (char ch : input) {
-        if (isalpha(static_cast<unsigned char>(ch))) { // isalpha keeps only alphabetic characters
-            result += tolower(static_cast<unsigned char>(ch));
-        }
-    }
-
-    return result;
-}
+using namespace std; 
 
 int main() {
-    ifstream file("words.txt");
-    vector<string> words;
-    string word;
-
-    if (!file) {
-        cerr << "Error: could not open file.\n";
+    ifstream dictionary("words.txt");  // Opens file to be used as dictionary
+    if (!dictionary) {
+        cerr << "Error: could not open words.txt" << endl;
         return 1;
     }
 
-    while (file >> word) {
-        string cleaned = cleanWord(word);
-        if (!cleaned.empty()) {
-            words.push_back(cleaned);
+    // Define a vector of strings called words
+    vector<string> words;
+    string word;
+
+    // add each word from dictionary file to the word vector
+    while (dictionary >> word) {
+        words.push_back(word);
+    }
+
+    // Open file to be checked
+    ifstream inputFile("input.txt");
+    if (!inputFile) {
+        cerr << "Error: could not open input.txt" << endl;
+        return 1;
+    }
+
+    // Print words from the input file that are not recognized
+    while (inputFile >> word) {
+        if (find(words.begin(), words.end(), word) == words.end()) { // This algorithm finds matching 'words' and returns to words.end
+            cout << "Not found in dictionary words list: " << word << endl; // Words not returned to words.end are displayed here
         }
     }
 
-    cout << "Words accepted into vector. " << endl;
-    cout << "Comparing Input Text file..." << endl;
-
-    ifstream inputFile("spelling.txt");
-    string spellcheck;
-
-    while (inputFile >> spellcheck) {
-        if  
-    }
     return 0;
 }

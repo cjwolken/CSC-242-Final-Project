@@ -32,9 +32,10 @@ int main() {
     // Print words from the input file that are not recognized
     while (inputFile >> word) {
         if (find(words.begin(), words.end(), word) == words.end()) { // This algorithm finds matching 'words' and returns to words.end
-            cout << "Not found in dictionary words list: " << word << endl; // Words not returned to words.end are displayed here
+            cout << "Not found in dictionary words list: " << word << endl; // Words not found are displayed here
         }
     }
 
     return 0;
 }
+

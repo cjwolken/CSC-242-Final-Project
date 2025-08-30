@@ -59,8 +59,11 @@ int main()
  
 
    // cout << "Processing complete. Check 'output.txt' for results." << endl; commented out, used as a check to make sure words were writing to file - JDutcher
+
     outputFile.close(); // close the file - JDutcher
+
     ifstream cleanFile("output.txt"); // reopen the file with different variable for code clarity and to return streampos to 0 - JDutcher
+
     // Print words from the input file that are not recognized
     while (cleanFile >> word) 
     {
@@ -73,8 +76,4 @@ int main()
 
     return 0;
 }
-int main()
-{
-		ifstream input_file;
-		input_file.open("testwords.txt");
-		if (input_file.fail()) { return 0; } // Check for failure after opening
+

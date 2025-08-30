@@ -6,7 +6,7 @@ using namespace std;
 
 /*To do:
 1. Solve issue with reading and writing files. (Fixed - Elder)
-2. Implement decryption option. (Work in progress)
+2. Implement decryption option. (Fixed - Elder)
 3. Insert key in front of encryption and decryption functions.(Completed for encryption - Elder)
 4. Encryption conforms to project specs. - Elder
 */
@@ -15,8 +15,8 @@ using namespace std;
 void encrypt_file(ifstream& in, ofstream& out, string k)
 {  
     char ch;
-    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBAzxyxwvutsrqponmlkjihgfedcba";
-    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // Preparing the key
     for (int i = 0; i < k.length(); i++)
     {    
@@ -36,14 +36,19 @@ void encrypt_file(ifstream& in, ofstream& out, string k)
             }
         }
     }
+    for (int i = 0; i < k.length(); i++)
+    {
+        k[i] = toupper(k[i]);
+    }
     // Preparing the key continued
     for (int i = 0; i < reverse_alpha.length(); i++)
     {
+        
         if(k.find(reverse_alpha[i]) == string::npos)
         {
             k += reverse_alpha[i];
         }
-        if (k.length() == 52)
+        if (k.length() == 26)
         {
             break;
         }
@@ -76,8 +81,9 @@ void encrypt_file(ifstream& in, ofstream& out, string k)
 void decrypt_file(ifstream& in, ofstream& out, string k)
 {
     char ch;
-    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBAzxyxwvutsrqponmlkjihgfedcba";
-    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    string reverse_alpha = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    string alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
     // Preparing the key
     for (int i = 0; i < k.length(); i++)
     {    
@@ -97,56 +103,62 @@ void decrypt_file(ifstream& in, ofstream& out, string k)
             }
         }
     }
+    for (int i = 0; i < k.length(); i++)
+    {
+        k[i] = toupper(k[i]);
+    }
     // Preparing the key continued
     for (int i = 0; i < reverse_alpha.length(); i++)
     {
+        
         if(k.find(reverse_alpha[i]) == string::npos)
         {
             k += reverse_alpha[i];
         }
-        if (k.length() == 52)
+        if (k.length() == 26)
         {
             break;
         }
     }
-    k += reverse_alpha;
-    // Decrypting the file
+    // Filling a string with the input file contents
+    string input = "";
     while (in.get(ch))
     {
-        if (isalpha(ch))
+        input += ch;
+    }
+
+    for ( int i = 0; i < input.length(); i++)
+    {
+        input[i] = toupper(input[i]);
+    }
+    // Decrypting the file
+    for (int i = 0; i < k.length(); i++)
+    {
+        if (input[i] == k[i])
         {
-            if (isupper(ch))
-            {
-                out << k[ch + 'A'];
-            }
-            else
-            {
-                out << (char)tolower(k[ch + 'a']);
-            }
+            out << (char)(i + 'A');
         }
-        else
-        {
-            out << ch;
-        }
-    }   
+    }
+    in.close();
+    out.close();
 }
 
 int main(int argc, char* argv[])
 {  
-   
    int file_count = 0; 
    ifstream in_file;
    ofstream out_file;
    for (int i = 1; i < argc; i++)
    {  
         string arg = argv[i]; 
-        // Check for decryption flag (Decryption won't work because of issue with file count(I think))
+        // Check for decryption flag 
         if (arg == "-d") 
         { 
             for (int j = 1; j < argc; j++)
             {
                 arg = argv[j];
                 file_count++;
+                // Open files based on their position
                 if (file_count == 2) 
                 {  
                     in_file.open(arg, ios::in);
@@ -167,11 +179,13 @@ int main(int argc, char* argv[])
                     }
                 }
             }
+            // Ensure correct number of files for decryption
             if (file_count != 3) 
             { 
                 cout << "Usage: " << argv[0] << " [-d] infile outfile" << endl;
                 return 1;
             }
+            // Decryption process in main
             cout << "Please enter the key for decryption:" << endl;
             string key;
             cin >> key;
@@ -181,6 +195,7 @@ int main(int argc, char* argv[])
         else 
         {  
             file_count++;
+            // Open files based on their position
             if (file_count == 1) 
             {  
                 in_file.open(arg, ios::in);
@@ -201,6 +216,7 @@ int main(int argc, char* argv[])
             }
         }
     }
+    // Ensure correct number of files for encryption
     if (file_count != 2) 
     { 
         cout << "Usage: " << argv[0] << " [-d] infile outfile" << endl;

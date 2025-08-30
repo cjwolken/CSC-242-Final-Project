@@ -1,0 +1,72 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <algorithm> 
+
+using namespace std;
+
+void process(fstream& outputFile);
+
+int main() {
+    ifstream dictionary("words.txt");  // Opens file to be used as dictionary
+    if (!dictionary) {
+        cerr << "Error: could not open words.txt" << endl;
+        return 1;
+    }
+
+    // Define a vector of strings called words
+    vector<string> words;
+    string word;
+
+    // add each word from dictionary file to the word vector
+    while (dictionary >> word) {
+        words.push_back(word);
+    }
+
+    // Open file to be checked
+    ifstream inputFile("input.txt");
+    if (!inputFile) {
+        cerr << "Error: could not open input.txt" << endl;
+        return 1;
+    }
+    fstream outputFile("output.txt"); // this works if it changes to ofstream, the text shows up correctly in line 59 output.
+
+    if (!outputFile.is_open())
+    {
+        cerr << "Error opening output file." << endl;
+        return 1;
+    }
+    char ch;
+    while (inputFile.get(ch))
+    {
+        if ((ch >= 'a' && ch <= 'z') || isspace(ch))
+        {
+            // Write lowercase letters and spaces to the output file
+            outputFile.put(ch);
+        }
+        else if (ch >= 'A' && ch <= 'Z')
+        {
+            // Convert uppercase letters to lowercase and write to the output file
+            outputFile.put(tolower(ch));
+        }
+        else if (ispunct(static_cast<unsigned char> (ch)))
+        {
+            // Skip punctuation
+            continue;
+        }
+    }
+    cout << "Processing complete. Check 'output.txt' for results." << endl; // Shows up in chinese.
+
+    // Print words from the input file that are not recognized
+    while (outputFile >> word) { // was inputFile, can't get it to work with outputFile
+        if (find(words.begin(), words.end(), word) == words.end()) { // This algorithm finds matching 'words' and returns to words.end
+            cout << "Not found in dictionary words list: " << word << endl; // Words not found are displayed here
+        }
+    }
+    inputFile.close();
+    outputFile.close();
+    dictionary.close();
+
+    return 0;
+}

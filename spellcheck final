@@ -10,23 +10,23 @@ using namespace std;
 
 int main() 
 {
-    ifstream dictionary("words.txt");  // Opens file to be used as dictionary
+    ifstream dictionary("words.txt");  // Opens file to be used as dictionary - Aaron Viray
     if (!dictionary) {
         cerr << "Error: could not open words.txt" << endl;
         return 1;
     }
 
-    // Define a vector of strings called words
+    // Define a vector of strings called words - Aaron Viray
     vector<string> words;
     string word;
 
-    // add each word from dictionary file to the word vector
+    // add each word from dictionary file to the word vector - Aaron Viray
     while (dictionary >> word) 
     {
         words.push_back(word);
     }
 
-    // Open file to be checked
+    // Open file to be checked - Aaron Viray
     ifstream inputFile("input.txt");
     if (!inputFile) 
     {
@@ -64,11 +64,11 @@ int main()
 
     ifstream cleanFile("output.txt"); // reopen the file with different variable for code clarity and to return streampos to 0 - JDutcher
 
-    // Print words from the input file that are not recognized
+    // Print words from the input file that are not recognized - Aaron Viray
     while (cleanFile >> word) 
     {
-        if (find(words.begin(), words.end(), word) == words.end()) { // This algorithm finds matching 'words' and returns to words.end
-            cout << "Not found in dictionary words list: " << word << endl; // Words not found are displayed here
+        if (find(words.begin(), words.end(), word) == words.end()) { // This algorithm finds matching 'words' and returns to words.end - Aaron Viray
+            cout << "Not found in dictionary words list: " << word << endl; // Words not found are displayed here - Aaron Viray
         }
     }
    
